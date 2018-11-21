@@ -6,7 +6,7 @@ const { AutoWebPlugin } = require('web-webpack-plugin');
 
 // 使用本文的主角 AutoWebPlugin，自动寻找 pages 目录下的所有目录，把每一个目录看成一个单页应用
 const autoWebPlugin = new AutoWebPlugin('pages', {
-  template: './template.html', // HTML 模版文件所在的文件路径
+  template: './index.html', // HTML 模版文件所在的文件路径
   postEntrys: ['./common.css'],// 所有页面都依赖这份通用的 CSS 样式文件
   // 提取出所有页面公共的代码
   commonsChunk: {
@@ -21,8 +21,8 @@ module.exports = {
     // 这里可以加入你额外需要的 Chunk 入口
   }),
   output: {
-    filename: '[name]_[chunkhash:8].js',// 给输出的文件名称加上 hash 值
-    path: path.resolve(__dirname, './dist'),
+    filename: '[name]/[name]_[chunkhash:8].js',// 给输出的文件名称加上 hash 值
+    path: path.join(__dirname,'./dist'),
   },
   module: {
     rules: [
@@ -44,7 +44,7 @@ module.exports = {
   plugins: [
     autoWebPlugin,
     new ExtractTextPlugin({
-      filename: `[name]_[contenthash:8].css`,// 给输出的 CSS 文件名称加上 hash 值
+      filename: `[name]/[name]_[contenthash:8].css`,// 给输出的 CSS 文件名称加上 hash 值
     }),
     new DefinePlugin({
       // 定义 NODE_ENV 环境变量为 production 去除 react 代码中的开发时才需要的部分
@@ -70,4 +70,16 @@ module.exports = {
       }
     }),
   ],
+    devServer: {
+        historyApiFallback: true,
+        hot: true,
+        host: '0.0.0.0',
+        port: '1007',
+        proxy: {
+            "/api": {
+                target: "http://localhost:5000",
+                secure: false
+            }
+        }
+    },
 };
