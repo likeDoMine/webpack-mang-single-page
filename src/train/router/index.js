@@ -5,12 +5,13 @@ import {
     Link,
     Redirect,
     Switch,
+    browserHistory
 } from 'react-router-dom'
 import TrainHome from '../pages/app.js'
 
-export default ()=>(<Router   basename="/train">
+export default ()=>(<Router    basename="/train">
         <Switch>
-            <Route path="/index"  exact component={TrainHome}></Route>
+            <Route path="/index"  exact  component={TrainHome}></Route>
         </Switch>
     </Router>
 )

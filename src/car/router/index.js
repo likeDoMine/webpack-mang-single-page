@@ -10,9 +10,9 @@ import {
 } from 'react-router-dom'
 import TrainHome from '../pages/app.js'
 
-export default ()=>(<Router  basename="/car">
+export default ()=>(<Router basename="/car">
         <Switch >
-            <Route path="/index"  exact component={TrainHome}></Route>
+            <Route path="/index"  exact  component={TrainHome}></Route>
         </Switch>
     </Router>
 )
