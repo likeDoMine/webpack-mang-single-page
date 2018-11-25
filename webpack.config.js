@@ -1,85 +1,93 @@
-const path = require('path');
-const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const DefinePlugin = require('webpack/lib/DefinePlugin');
-const { AutoWebPlugin } = require('web-webpack-plugin');
+/*
+* 1. webpack.config.js
+* 2018.11.25
+* */
 
-// 使用本文的主角 AutoWebPlugin，自动寻找 pages 目录下的所有目录，把每一个目录看成一个单页应用
-const autoWebPlugin = new AutoWebPlugin('pages', {
-  template: './index.html', // HTML 模版文件所在的文件路径
-  postEntrys: ['./common.css'],// 所有页面都依赖这份通用的 CSS 样式文件
-  // 提取出所有页面公共的代码
-  commonsChunk: {
-    name: 'common',// 提取出公共代码 Chunk 的名称
-  },
-});
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");//css分离打包
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");//js压缩
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"); //css压缩
+const HtmlWebpackPlugin = require("html-webpack-plugin");//生成html文件
+const getEntry =  require("./config/getEntry");
+const htmlArr =  require("./config/htmlConfig");
+let entry =  getEntry('./src');
 
-module.exports = {
-  // AutoWebPlugin 会找为寻找到的所有单页应用，生成对应的入口配置，
-  // autoWebPlugin.entry 方法可以获取到生成入口配置
-  entry: autoWebPlugin.entry({
-    // 这里可以加入你额外需要的 Chunk 入口
-  }),
-  output: {
-    filename: '[name]/[name]_[chunkhash:8].js',// 给输出的文件名称加上 hash 值
-    path: path.join(__dirname,'./dist'),
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        use: ['babel-loader'],
-        // 排除 node_modules 目录下的文件，node_modules 目录下的文件都是采用的 ES5 语法，没必要再通过 Babel 去转换
-        exclude: path.resolve(__dirname, 'node_modules'),
-      },
-      {
-        test: /\.css/,// 增加对 CSS 文件的支持
-        // 提取出 Chunk 中的 CSS 代码到单独的文件中
-        use: ExtractTextPlugin.extract({
-          use: ['css-loader?minimize'] // 压缩 CSS 代码
-        }),
-      },
-    ]
-  },
-  plugins: [
-    autoWebPlugin,
-    new ExtractTextPlugin({
-      filename: `[name]/[name]_[contenthash:8].css`,// 给输出的 CSS 文件名称加上 hash 值
-    }),
-    new DefinePlugin({
-      // 定义 NODE_ENV 环境变量为 production 去除 react 代码中的开发时才需要的部分
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),
-    // 压缩输出的 JS 代码
-    new UglifyJsPlugin({
-      // 最紧凑的输出
-      beautify: false,
-      // 删除所有的注释
-      comments: false,
-      compress: {
-        // 在UglifyJs删除没有用到的代码时不输出警告
-        warnings: false,
-        // 删除所有的 `console` 语句，可以兼容ie浏览器
-        drop_console: true,
-        // 内嵌定义了但是只用到一次的变量
-        collapse_vars: true,
-        // 提取出出现多次但是没有定义成变量去引用的静态值
-        reduce_vars: true,
-      }
-    }),
-  ],
+module.exports = (env, argv) =>({
+    mode:'production',
+    //配置入口
+    entry: entry,
+    //配置出口
+    output: {
+        path: path.join(__dirname, 'dist'),
+        filename:'[name].js'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader:"babel-loader",
+                    options:{
+                        presets: ["@babel/preset-env", "@babel/preset-react"]
+                    }
+                },
+            },
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"],
+            },
+            {
+                test: /\.(scss|css)$/, //css打包 路径在plugins里
+                use: [
+                    argv.mode == "development" ? { loader: "style-loader"} :MiniCssExtractPlugin.loader,
+                    { loader: "css-loader", options: { url: false, sourceMap: true } },
+                    { loader: "sass-loader", options: { sourceMap: true } }
+                ]
+            },
+            {
+                test: /\.(png|jpg)$/,
+                use:[
+                    {
+                        loader: "url-loader",
+                        options: {
+                            name: "./images/[name].[ext]",
+                            limit: 8192
+                        }
+                    }
+                ]
+            },
+        ],
+    },
+    plugins:[
+        ...htmlArr,
+        new MiniCssExtractPlugin({ //分离css插件
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        })
+    ],
     devServer: {
-        historyApiFallback: true,
-        hot: true,
-        host: '0.0.0.0',
-        port: '1007',
-        proxy: {
-            "/api": {
-                target: "http://localhost:5000",
-                secure: false
+        port: 3100,
+        open: true,
+    },
+    optimization: {
+        minimizer: [//压缩js
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: false
+            }),
+            new OptimizeCSSAssetsPlugin({})
+        ],
+        splitChunks: { //压缩css
+            cacheGroups: {
+                styles: {
+                    name: "styles",
+                    test: /\.css$/,
+                    chunks: "all",
+                    enforce: true
+                }
             }
         }
-    },
-};
+    }
+})
