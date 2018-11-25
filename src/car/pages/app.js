@@ -5,8 +5,8 @@
  */
 
 import React, { Component } from "react";
-import Nav from '../component/nav';
-import  aboutpic from './images/about.jpg'
+import Nav from '../../component/nav';
+import  aboutpic from '../images/about.jpg'
 export default class App extends Component {
   render() {
   	return (

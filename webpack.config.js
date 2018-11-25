@@ -8,8 +8,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");//css分离打�
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");//js压缩
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"); //css压缩
 const HtmlWebpackPlugin = require("html-webpack-plugin");//生成html文件
-const getEntry =  require("./config/getEntry");
 const htmlArr =  require("./config/htmlConfig");
+const getEntry =  require("./config/getEntry");
 let entry =  getEntry('./src');
 
 module.exports = (env, argv) =>({
@@ -19,7 +19,7 @@ module.exports = (env, argv) =>({
     //配置出口
     output: {
         path: path.join(__dirname, 'dist'),
-        filename:'[name].js'
+        filename:'[name].[hash:8].js'
     },
     module: {
         rules: [
