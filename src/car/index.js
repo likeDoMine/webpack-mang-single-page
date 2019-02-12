@@ -10,4 +10,4 @@ import Router  from './router/index'
 import App from './pages/app.js'
 import "./index.scss";
 
-ReactDOM.render(<Router />, document.getElementById("root"));
+ReactDOM.render(<Router/>, document.getElementById("root"));

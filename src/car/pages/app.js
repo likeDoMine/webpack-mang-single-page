@@ -9,6 +9,7 @@ import Nav from '../../component/nav';
 import  aboutpic from '../images/about.jpg'
 export default class App extends Component {
   render() {
+
   	return (
   		<div>
   			<Nav />
