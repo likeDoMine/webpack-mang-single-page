@@ -10,9 +10,8 @@ export default class App extends Component {
   render() {
   	return (
   		<div>
-  			{/*<Nav />*/}
   			<div className="about">
-                我是sec
+             我是train
           <p>and this is about page</p>
         </div>
       </div>

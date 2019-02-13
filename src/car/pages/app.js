@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from "react";
-import Nav from '../../component/nav';
+import Nav from '../../common/component/nav';
 import {Link} from 'react-router-dom';
 import  aboutpic from '../images/about.jpg'
 export default class App extends Component {

@@ -42,7 +42,7 @@ module.exports = (env, argv) =>({
                 test: /\.(scss|css)$/, //css打包 路径在plugins里
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
-                    use: ['css-loader', 'sass-loader']
+                    use: ['css-loader', 'less-loader','sass-loader']
                   /*  { loader: "css-loader", options: { url: false, sourceMap: true } },
                     { loader: "sass-loader", options: { sourceMap: true } }*/
                 }),
@@ -74,10 +74,18 @@ module.exports = (env, argv) =>({
 
     ],
     devServer: {
+        contentBase: path.join(__dirname, "src"),
         port: 3100,
         open: true,
-        historyApiFallback: true,   //历史记录的
+        historyApiFallback: {
+            rewrites: [
+                { from: /^\/$/, to: '/car/index.html' },
+                { from: /^\/car/, to: '/car/index.html' },
+                { from: /^\/train/, to: '/train/index.html' }
+            ]
+        },   //历史记录的
     },
+
     optimization: {
         minimizer: [//压缩js
             new UglifyJsPlugin({
