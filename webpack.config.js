@@ -4,10 +4,11 @@
 * */
 
 const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");//css分离打包
+//const MiniCssExtractPlugin = require("mini-css-extract-plugin");//css分离打包
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");//js压缩
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"); //css压缩
 const HtmlWebpackPlugin = require("html-webpack-plugin");//生成html文件
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const htmlArr =  require("./config/htmlConfig");
 const getEntry =  require("./config/getEntry");
 let entry =  getEntry('./src');
@@ -39,11 +40,12 @@ module.exports = (env, argv) =>({
             },
             {
                 test: /\.(scss|css)$/, //css打包 路径在plugins里
-                use: [
-                    argv.mode == "development" ? { loader: "style-loader"} :MiniCssExtractPlugin.loader,
-                    { loader: "css-loader", options: { url: false, sourceMap: true } },
-                    { loader: "sass-loader", options: { sourceMap: true } }
-                ]
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: ['css-loader', 'sass-loader']
+                  /*  { loader: "css-loader", options: { url: false, sourceMap: true } },
+                    { loader: "sass-loader", options: { sourceMap: true } }*/
+                }),
             },
             {
                 test: /\.(png|jpg)$/,
@@ -61,14 +63,20 @@ module.exports = (env, argv) =>({
     },
     plugins:[
         ...htmlArr,
-        new MiniCssExtractPlugin({ //分离css插件
+        /*new MiniCssExtractPlugin({ //分离css插件
             filename: "[name].css",
             chunkFilename: "[id].css"
+        })*/
+        new ExtractTextPlugin({
+            filename:'[name].css',
+
         })
+
     ],
     devServer: {
         port: 3100,
         open: true,
+        historyApiFallback: true,   //历史记录的
     },
     optimization: {
         minimizer: [//压缩js
@@ -79,7 +87,9 @@ module.exports = (env, argv) =>({
             }),
             new OptimizeCSSAssetsPlugin({})
         ],
-        splitChunks: { //压缩css
+        splitChunks: {
+           // chunks: 'all',  //因为这意味着即使在异步和非异步块之间也可以共享块
+            //压缩css
             cacheGroups: {
                 styles: {
                     name: "styles",

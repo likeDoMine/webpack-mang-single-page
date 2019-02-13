@@ -24,8 +24,8 @@ getFilePath("./src").map((item)=>{
             description:infoData.description ? infoData.description : "这是一个webpack，react多页面架构"
         },
         chunks:[`${item}/${item}`], //引入的js
-        template:'./src/template.html',
-        filename: item == 'index'? 'index.html':`${item}/index.html`,
+        template:'./src/index.html',
+        filename: `${item}/index.html`,
         minify:{       //压缩html
             collapseWhitespace: true,
             preserveLineBreaks: true

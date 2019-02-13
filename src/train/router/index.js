@@ -11,7 +11,8 @@ import TrainHome from '../pages/app.js'
 
 export default ()=>(<Router    basename="/train">
         <Switch>
-            <Route path="/index"  exact  component={TrainHome}></Route>
+           <Route path="/"  exact  component={TrainHome}></Route>
+           <Route path="/"  exact  component={TrainHome}></Route>
         </Switch>
     </Router>
 )

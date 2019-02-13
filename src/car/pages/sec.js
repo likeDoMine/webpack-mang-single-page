@@ -6,16 +6,14 @@
 import React, { Component } from "react";
 import Nav from '../../component/nav';
 import {Link} from 'react-router-dom';
-import  aboutpic from '../images/about.jpg'
 export default class App extends Component {
   render() {
-
   	return (
   		<div>
-  			<Nav />
+  			{/*<Nav />*/}
   			<div className="about">
-               {/* <Link to={{path:'/sec'}}><img src={aboutpic}/></Link>*/}
-                <Link to='/sec'><p>and this is about page</p></Link>
+                我是sec
+          <p>and this is about page</p>
         </div>
       </div>
     );
