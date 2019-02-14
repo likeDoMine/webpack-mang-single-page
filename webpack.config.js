@@ -13,6 +13,8 @@ const htmlArr =  require("./config/htmlConfig");
 const getEntry =  require("./config/getEntry");
 let entry =  getEntry('./src');
 
+
+
 module.exports = (env, argv) =>({
     mode:'production',
     //配置入口

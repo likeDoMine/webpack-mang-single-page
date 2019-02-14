@@ -2,11 +2,14 @@ const Koa = require('koa');
 const app = new Koa();
 const path =  require("path");
 const serve = require('koa-static');
+const views = require('koa-views');
 
 // 1.主页静态网页 把静态页统一放到public中管理
 // 3.分配路由
 //console.log("_firName", __dirname);
 app.use(serve(path.join(__dirname,'../dist/')));
+
+app.use(views(path.resolve('./dist/car'), { map: { html: 'html' } }))
 
 /*app.use(async function({method,url, req, res}) {
 
@@ -18,5 +21,12 @@ app.use(serve(path.join(__dirname,'../dist/')));
     }*!/
     ctx.body = 'Hello World';
 });*/
+
+app.use(async ctx => {
+    var str = renderToString(<App></App>)
+    await ctx.render('index', {
+        root: str
+    })
+})
 
 app.listen(3000);
