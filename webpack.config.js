@@ -20,7 +20,8 @@ const data = (()=>{
     }
 })();
 
-const config= ((env, argv) => {
+const config= (env, argv) => {
+   // console.log("env", env);
     return {
         mode: 'production',
         //配置入口
@@ -118,7 +119,7 @@ const config= ((env, argv) => {
             }
         }
     }
-})();
+};
 
-module.exports = WebpackMerge(config, data);
+module.exports = (env)=>WebpackMerge(config(env), data);
 
