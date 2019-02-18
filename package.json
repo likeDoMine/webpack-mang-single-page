@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:koa": "node  server/index.js",
+    "dev:koa": "set NODE_ENV=developer && node  server/index.js",
     "dev": "webpack-dev-server  --mode development --env.NODE_ENV=local --devtool inline-source-map --hot",
     "build": "webpack --mode production",
     "start": "node www.js"
@@ -48,7 +48,7 @@
     "koa-static": "^5.0.0",
     "koa-views": "^6.1.5",
     "opn": "^5.4.0",
-    "react": "^16.5.2",
+    "react": "^16.8.2",
     "react-dom": "^16.5.2",
     "webpack-merge": "^4.2.1"
   }
