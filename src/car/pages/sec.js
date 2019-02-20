@@ -11,8 +11,6 @@ import '../common/css/index.less'
 
 export  default function App(){
     const [users, setUsers] =  useState([]);    //设置初始化值
-
-
     useEffect(()=>{
         fetch("https://api.github.com/users")
         .then(response => response.json())
@@ -21,6 +19,7 @@ export  default function App(){
             setUsers(data);
         });
     },[])
+
     return <div>
         {users.map(user => (
             <div key={user.id} className="card">
