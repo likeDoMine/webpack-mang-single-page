@@ -26,7 +26,7 @@ function App(){
     })
 
     useEffect(()=>{
-        //console.log("我执行了没有。。。。")
+        //console.log("当我们----------")
         // Similar to componentDidMount and componentDidUpdate:
         document.title = `You clicked ${count} times`;
         // setCount(count + 1);
@@ -58,17 +58,4 @@ function App(){
 }
 
 export default  App;
-/*export default class App extends Component {
-  render() {
 
-  	return (
-  		<div>
-  			<Nav />
-  			<div className="about">
-               {/!* <Link to={{path:'/sec'}}><img src={aboutpic}/></Link>*!/}
-                <Link to='/sec'><p>and this is about page</p></Link>
-        </div>
-      </div>
-    );
-  }
-}*/
