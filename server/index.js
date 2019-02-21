@@ -10,7 +10,6 @@ app.use(serve(path.join(__dirname,'../dist/')));
 app.use(views(path.resolve('./dist/car'), { map: { html: 'html' } }))
 
 /*app.use(async function(ctx) {
-
    /!* if(method === 'GET'){
         //这里做一个处理
         if(url === "/"){
@@ -27,7 +26,8 @@ app.use(async ctx => {
         root: str
     })
 })
+
 */
 
 
-app.listen(4000);
+app.listen(3000);

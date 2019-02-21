@@ -49,13 +49,13 @@ const config= (env, argv) => {
                 },
                 {
                     test: /\.less$/,
-                    use: [ "style-loader", "css-loader",'less-loader' ],
+                    use: [ "style-loader", "css-loader",'less-loader'],
                 },
                 {
                     test: /\.(scss|css)$/, //css打包 路径在plugins里
                     use: ExtractTextPlugin.extract({
                         fallback: "style-loader",
-                        use: [ 'css-loader', 'less-loader', 'sass-loader' ]
+                        use: [ 'css-loader', 'less-loader', 'sass-loader']
                         /*  { loader: "css-loader", options: { url: false, sourceMap: true } },
                           { loader: "sass-loader", options: { sourceMap: true } }*/
                     }),
