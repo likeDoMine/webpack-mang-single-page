@@ -15,6 +15,10 @@ export default function app(){
     const props = useSpring({ opacity: 1, from: { opacity: 0 } });
     const propsLine = useSpring({ number: 1, from: { number: 0 } });
 
+    componentDidMount(){
+
+    }
+
   	return (
   		<div>
   			<Nav />
@@ -23,7 +27,6 @@ export default function app(){
                 <Link to='/sec'><p>and this is about page</p></Link>
                 <animated.div style={props}>I will fade in</animated.div>
                 <animated.span>{propsLine.number}</animated.span>
-
             </div>
       </div>
     );
