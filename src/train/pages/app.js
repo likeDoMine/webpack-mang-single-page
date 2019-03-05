@@ -14,11 +14,6 @@ import { useSpring, animated,path, Donut} from 'react-spring'
 export default function app(){
     const props = useSpring({ opacity: 1, from: { opacity: 0 } });
     const propsLine = useSpring({ number: 1, from: { number: 0 } });
-
-    componentDidMount(){
-
-    }
-
   	return (
   		<div>
   			<Nav />
