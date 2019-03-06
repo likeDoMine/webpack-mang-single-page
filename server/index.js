@@ -3,6 +3,11 @@ const app = new Koa();
 const path =  require("path");
 const serve = require('koa-static');
 const views = require('koa-views');
+const fs = require('fs');
+const maxFile =  require('./maxFile');
+
+//获取文件的测试(最大文件)
+maxFile();
 
 // 1.主页静态网页 把静态页统一放到public中管理
 app.use(serve(path.join(__dirname,'../dist/')));
