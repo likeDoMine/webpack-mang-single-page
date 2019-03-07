@@ -12,6 +12,8 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import App from '../pages/app.js'
 import Sec from '../pages/sec'
+import AntiShake from '../pages/Anti-shake'
+import GlobalThis from '../pages/arrayRepeat'
 
 export default ()=>(<Router basename="/car">
         <TransitionGroup>
@@ -19,6 +21,8 @@ export default ()=>(<Router basename="/car">
                 <Switch>
                    <Route path="/"  exact  component={App}></Route>
                    <Route path="/sec"    component={Sec}></Route>
+                   <Route path='/antiShake' component={AntiShake}></Route>
+                    <Route path='/globalThis' component={GlobalThis}></Route>
                 </Switch>
             </CSSTransition>
         </TransitionGroup>

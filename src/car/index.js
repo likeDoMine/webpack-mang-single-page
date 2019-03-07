@@ -9,5 +9,4 @@ import ReactDOM from "react-dom";
 import Router  from './router/index'
 import App from './pages/app.js'
 import "./index.less";
-
 ReactDOM.render(<Router/>, document.getElementById("root"));
