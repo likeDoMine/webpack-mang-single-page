@@ -132,9 +132,56 @@ export default class ArrayRepeat extends React.Component{
                 i = start+1;
             }
         }
-       // console.log("result", result);
-        //return result;
+        return result;
     };
+
+    /**
+     *类型判断
+     * 1. javascript原来的类型
+     * Undefined、Null、Boolean、Number、String、Object
+     *  Object有分Function Array, Date, RegExp, Error等
+     * 2.
+     * typeof:
+     * Object.prototype.toString.call()
+     */
+    Type(){
+        //先测试基本类型验证
+        var number = 1;          // prototype: [object Number]; typeof: 'number'
+        var string = '123';      // prototype: [object String]; typeof: 'string'
+        var boolean = true;      // prototype: [object Boolean];    typeof: 'boolean'
+        var und = undefined;     // prototype: [object Undefined];  typeof: 'undefined'
+        var nul = null;          // prototype: [object Null];   typeof: 'object'
+        var obj = {a: 1}         // prototype: [object Object]; typeof: 'object'
+        var array = [1, 2, 3];   // prototype: [object Array];  typeof: 'object'
+        var date = new Date();   // prototype: [object Date];   typeof: 'object'
+        var error = new Error(); // prototype: [object Error];  typeof: 'object'
+        var reg = /a/g;          // prototype: [object RegExp]; typeof: 'object'
+        var func = function a(){}; // prototype: [object Function]; typeof: 'function'
+
+        let data = [number, string, boolean,und,nul, obj, array, date, error, reg,func];
+        data.map((item,index)=>{
+            //console.log(index, typeof item);
+            this.typeFunc(item);
+        })
+    }
+
+    typeFunc(obj){
+        //普通类型用typeof, 引用类型用toString
+        if(obj === null){
+            return obj + "";
+        }
+        var class2type = {};
+
+        // 生成class2type映射
+        "Boolean Number String Function Array Date RegExp Object Error".split(" ").map(function(item, index) {
+            class2type["[object " + item + "]"] = item.toLowerCase();
+        })
+
+        let type =  typeof obj === 'object' || typeof obj === 'function' ? class2type[Object.prototype.toString.call(obj)] || "object" : typeof obj;
+        console.log(type);
+    }
+
+
 
     render(){
         var {repeatArray} =  this.state;
@@ -147,6 +194,7 @@ export default class ArrayRepeat extends React.Component{
             {/*<div onClick={()=>{this.ObjectClearArr()}}>Object 键值对</div>*/}
             <div onClick={()=>{this.Es6ClearArr()}}>Es去重Set, Map</div>
             <div onClick={()=>{this.twoSum([0,4,3,0],0)}}>两个数的和</div>
+            <div onClick={()=>{this.Type()}}>类型判断</div>
         </div>
     }
 }
