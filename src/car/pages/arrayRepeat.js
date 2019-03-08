@@ -110,6 +110,32 @@ export default class ArrayRepeat extends React.Component{
         return Array.from(new Set(arr))||[...new Set(arr)];
     }
 
+    twoSum(nums, target) {
+        var start = 0 ;     //开始的索引
+        var i = 1;  //执行开始的索引
+        var result = [];
+
+        if(!nums.length || typeof target === 'undefined'){
+            return;
+        }
+
+        //开始轮训
+        while(start <= nums.length - 1){
+
+            if(nums[start] + nums[i] === target){
+                result.push(start, i);
+                break;
+            }
+            i++;
+            if(i == nums.length){
+                start = ++start;
+                i = start+1;
+            }
+        }
+       // console.log("result", result);
+        //return result;
+    };
+
     render(){
         var {repeatArray} =  this.state;
         return <div>
@@ -120,6 +146,7 @@ export default class ArrayRepeat extends React.Component{
             <div onClick={()=>{this.filterArr(repeatArray)}}>filter的方式数组去重</div>
             {/*<div onClick={()=>{this.ObjectClearArr()}}>Object 键值对</div>*/}
             <div onClick={()=>{this.Es6ClearArr()}}>Es去重Set, Map</div>
+            <div onClick={()=>{this.twoSum([0,4,3,0],0)}}>两个数的和</div>
         </div>
     }
 }
