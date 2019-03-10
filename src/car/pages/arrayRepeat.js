@@ -181,6 +181,95 @@ export default class ArrayRepeat extends React.Component{
         console.log(type);
     }
 
+    //纯粹的对象
+    //就是该对象是通过 "{}" 或 "new Object" 创建的，该对象含有零个或者多个键值对。
+    isPlainObject(){
+
+
+
+            // 上节中写 type 函数时，用来存放 toString 映射结果的对象
+            var class2type = {};
+
+            // 相当于 Object.prototype.toString
+            var toString = class2type.toString;
+
+            // 相当于 Object.prototype.hasOwnProperty
+            var hasOwn = class2type.hasOwnProperty;
+            var proto, Ctor;
+
+
+
+            // 排除掉明显不是obj的以及一些宿主对象如Window
+            if (!obj || toString.call(obj) !== "[object Object]") {
+                return false;
+            }
+
+            /**
+             * getPrototypeOf es5 方法，获取 obj 的原型
+             * 以 new Object 创建的对象为例的话
+             * obj.__proto__ === Object.prototype
+             */
+            proto = Object.getPrototypeOf(obj);
+
+            // 没有原型的对象是纯粹的，Object.create(null) 就在这里返回 true
+            if (!proto) {
+                return true;
+            }
+
+            /**
+             * 以下判断通过 new Object 方式创建的对象
+             * 判断 proto 是否有 constructor 属性，如果有就让 Ctor 的值为 proto.constructor
+             * 如果是 Object 函数创建的对象，Ctor 在这里就等于 Object 构造函数
+             * hasOwn =  Function.prototype.toString
+             */
+            Ctor = hasOwn.call(proto, "constructor") && proto.constructor;
+
+            // 在这里判断 Ctor 构造函数是不是 Object 构造函数，用于区分自定义构造函数和 Object 构造函数
+            return typeof Ctor === "function" && hasOwn.toString.call(Ctor) === hasOwn.toString.call(Object);
+    }
+
+    //判断是不是空对象
+    isEmptyObject(obj){
+        var name;
+        for ( name in obj ) {
+            return false;
+        }
+        return true;
+
+
+        console.log(isEmptyObject({})); // true
+        console.log(isEmptyObject([])); // true
+        console.log(isEmptyObject(null)); // true
+        console.log(isEmptyObject(undefined)); // true
+        console.log(isEmptyObject(1)); // true
+        console.log(isEmptyObject('')); // true
+        console.log(isEmptyObject(true)); // true
+    }
+
+    //判断是不是window对象
+    isWindow( obj ) {
+        return obj != null && obj === obj.window;
+    }
+
+    //函数柯里化
+   curry(fn) {
+        var args = [].slice.call(arguments,1);
+
+        return function() {
+            var newArgs = args.concat([].slice.call(arguments));
+            return fn.apply(this, newArgs);
+        };
+    };
+
+    add(a, b) {
+        return a + b;
+    }
+
+    testCurry(){
+        var addCurry = this.curry(this.add, 1, 2);
+        console.log("test1",addCurry);
+
+    }
 
 
     render(){
@@ -195,6 +284,8 @@ export default class ArrayRepeat extends React.Component{
             <div onClick={()=>{this.Es6ClearArr()}}>Es去重Set, Map</div>
             <div onClick={()=>{this.twoSum([0,4,3,0],0)}}>两个数的和</div>
             <div onClick={()=>{this.Type()}}>类型判断</div>
+           {/* <div onClick={()=>{this.isPlainObject()}}></div>*/}
+           <div onClick={()=>{this.testCurry()}}>函数柯里化</div>
         </div>
     }
 }
