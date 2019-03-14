@@ -81,7 +81,6 @@ const config= (env, argv) => {
                 filename: "[name].css",
                 chunkFilename: "[id].css"
             })*/
-            "react-hooks",
             new ExtractTextPlugin({
                 filename: '[name].css',
             })
