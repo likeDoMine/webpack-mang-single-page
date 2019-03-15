@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {deepCopy} from  '../../common/util'
 
+
 var c_Num = [10,3,2,4,5,6,1];
 //sort排序
 function sort(){
@@ -37,12 +38,90 @@ function sort(){
         return obj;
     }
 
+    /**
+     * 快速排序
+     */
+    const fastSort = (arr)=>{
+
+        //console.log(arr.push(100));
+      /**
+       * 这里不能直接修改arr的值
+       * @type {any}
+       */
+       var arr = JSON.parse(JSON.stringify(arr));
+
+        // 交换元素
+        function swap(arr, a, b) {
+            var temp = arr[a];
+            arr[a] = arr[b];
+            arr[b] = temp;
+        }
+
+        /**
+         * @param arr： 完整数组
+         * @param left  :左边第一个索引
+         * @param right ：数组的长度
+         * @returns {*}
+         */
+        function partition(arr, left, right) {
+            //第一个值 如果是上面的数组，则就是10
+            var pivot = arr[left];  //10
+            //索引值0
+            var storeIndex = left;
+
+            /**
+             *  i: 从第二个开始;
+             *  依次与第一个比较
+             */
+            for (var i = left + 1; i <= right; i++) {
+                //3<10 //交换循序
+                if (arr[i] < pivot) {
+                    //数组， 与前一个
+                    swap(arr, ++storeIndex, i);
+                }
+            }
+
+            swap(arr, left, storeIndex);
+
+            return storeIndex;
+        }
+
+        function sort(arr, left, right) {
+
+            /**
+             * 验证索引left必须小于right;
+             * 证明：整个数组存在，并且长度至少大于1
+             */
+            if (left < right) {
+
+                //管理从第一个位置开始的索引(元素开始的位置)
+                var storeIndex = partition(arr, left, right);
+
+                //得到的中间位置出来的左边开始排序
+                sort(arr, left, storeIndex - 1);
+
+                //storeIndex到最右边之间的元素依次排序
+                sort(arr, storeIndex + 1, right);
+            }
+
+        }
+
+        /**
+         * 这里传入q
+         * 1.arr: 起始数组
+         */
+        sort(arr, 0, arr.length - 1);
+        return arr;
+    }
+
+
     useEffect(() => {
 
     });
 
     return <div>
         <div onClick={()=>setNum((num)=>{return insertSort(num);})}>{c_Num.join(",")}插入排序{num.join(",")}</div>
+        <div onClick={()=>setNum((num)=>{return fastSort(num)})}>{c_Num.join(",")}快速排序{num.join(",")}</div>
     </div>
 }
 
