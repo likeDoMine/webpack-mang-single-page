@@ -16,6 +16,7 @@ import AntiShake from '../pages/Anti-shake'
 import GlobalThis from '../pages/arrayRepeat'
 import Person from '../pages/prototype'
 import Sort from '../pages/sort';
+import Upload from '../pages/upload'
 
 export default ()=>(<Router basename="/car">
         <TransitionGroup>
@@ -26,7 +27,8 @@ export default ()=>(<Router basename="/car">
                    <Route path='/antiShake' component={AntiShake}></Route>
                    <Route path='/globalThis' component={GlobalThis}></Route>
                    <Route path='/proto' component={Person}></Route>
-                    <Route path='/sort' component={Sort}></Route>
+                   <Route path='/sort' component={Sort}></Route>
+                   <Route path='/upload' component={Upload}></Route>
                 </Switch>
             </CSSTransition>
         </TransitionGroup>
